@@ -48,8 +48,5 @@ class Cart:
                    for item in self.cart.values())
 
     def clear(self):
-        # удалить корзину из сеанса
         del self.session[settings.CART_SESSION_ID]
         self.save()
-
-#412
