@@ -1,5 +1,3 @@
-from lib2to3.fixes.fix_input import context
-
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Product, Category
@@ -9,10 +7,7 @@ class ProductListView(ListView):
     template_name = 'shop/product/list.html'
 
     def get_queryset(self):
-        # Основной фильтр для доступных продуктов
         queryset = Product.objects.filter(available=True)
-
-        # Если передан slug, фильтруем по категории
         slug = self.kwargs.get('slug')
         if slug:
             category = get_object_or_404(Category, slug=slug)
@@ -20,7 +15,6 @@ class ProductListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        # Добавляем категории в контекст
         slug = self.kwargs.get('slug')
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
@@ -41,5 +35,3 @@ class ProductDetailView(DetailView):
         product = get_object_or_404(Product, id=id, slug=slug)
         context['product'] = product
         return context
-
-#405
